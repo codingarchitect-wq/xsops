@@ -16,7 +16,7 @@ find_project_root() {
 }
 
 usage() {
-    echo "Usage: secrets <command> <env> [-- <cmd>]"
+    echo "Usage: xsops <command> <env> [-- <cmd>]"
     echo ""
     echo "Commands:"
     echo "  run <env> -- <cmd>    Run command with secrets loaded"

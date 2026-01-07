@@ -28,6 +28,6 @@ WORKDIR /app
 COPY . /app/
 
 # Make scripts executable
-RUN chmod +x /app/with-env-secrets /app/test/*.sh 2>/dev/null || true
+RUN chmod +x /app/xsops /app/test/*.sh 2>/dev/null || true
 
 ENTRYPOINT ["/app/test/run-integration-tests.sh"]

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`with-env-secrets` is a bash helper script for working with SOPS-encrypted secrets files across different environments (dev, prod, etc.). It wraps SOPS commands to load, view, and edit encrypted environment-specific secrets.
+`xsops` is a bash helper script for working with SOPS-encrypted secrets files across different environments (dev, prod, etc.). It wraps SOPS commands to load, view, and edit encrypted environment-specific secrets.
 
 ## Commands
 
@@ -22,20 +22,20 @@ npm run test:integration
 npm run debug-test
 
 # Run a single test file
-npx bats test/with-env-secrets-unit.bats
+npx bats test/xsops-unit.bats
 ```
 
 ## Architecture
 
-### Main Script (`with-env-secrets`)
+### Main Script (`xsops`)
 Bash script that:
 - Finds project root by walking up looking for `.sops.yaml` or `secrets/` directory
 - Supports commands: `run`, `edit`, `view`, `which`
 - Uses `sops exec-env` to inject decrypted secrets into command environment
 
 ### Test Structure
-- **Unit tests** (`test/with-env-secrets-unit.bats`): Use a mocked SOPS implementation (plain YAML parsing) for fast, dependency-free testing
-- **Integration tests** (`test/with-env-secrets-integration.bats`): Run in Docker with real SOPS and an ephemeral GPG key generated at test startup
+- **Unit tests** (`test/xsops-unit.bats`): Use a mocked SOPS implementation (plain YAML parsing) for fast, dependency-free testing
+- **Integration tests** (`test/xsops-integration.bats`): Run in Docker with real SOPS and an ephemeral GPG key generated at test startup
 
 ### Integration Test Docker Setup
 - `test/Dockerfile`: Alpine image with SOPS, GPG, bats-core

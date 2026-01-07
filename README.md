@@ -1,4 +1,4 @@
-# with-env-secrets
+# xsops
 
 A CLI helper for running commands with SOPS-encrypted secrets injected as environment variables, without leaking them into the global shell environment or in files.
 
@@ -26,15 +26,15 @@ Secrets never leak into your shell's environment; they're only available to the 
 
 ```bash
 # Clone the repository
-git clone https://github.com/codingarchitect-wq/with-env-secrets.git
-cd with-env-secrets
+git clone https://github.com/codingarchitect-wq/xsops.git
+cd xsops
 ```
 
 ### Linux / macOS
 
 ```bash
 # Option 1: Symlink to /usr/local/bin (requires sudo)
-sudo ln -s "$(pwd)/with-env-secrets" /usr/local/bin/with-env-secrets
+sudo ln -s "$(pwd)/xsops" /usr/local/bin/xsops
 
 # Option 2: Add to PATH in ~/.bashrc or ~/.zshrc (no sudo required)
 echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc
@@ -45,7 +45,7 @@ source ~/.bashrc
 
 ```bash
 # Same as Linux - run from within WSL
-sudo ln -s "$(pwd)/with-env-secrets" /usr/local/bin/with-env-secrets
+sudo ln -s "$(pwd)/xsops" /usr/local/bin/xsops
 ```
 
 ### Windows (Git Bash)
@@ -61,7 +61,7 @@ source ~/.bashrc
 To verify installation, run:
 
 ```bash
-with-env-secrets
+xsops
 ```
 
 ## Project Structure
@@ -119,19 +119,19 @@ Encrypt with: `sops -e -i secrets/dev/env.yaml`
 
 ```bash
 # Run a Node.js app with dev secrets
-with-env-secrets run dev -- node server.js
+xsops run dev -- node server.js
 
 # Run database migrations with prod secrets
-with-env-secrets run prod -- npm run migrate
+xsops run prod -- npm run migrate
 
 # Use secrets in a shell command
-with-env-secrets run dev -- sh -c 'echo $DATABASE_URL'
+xsops run dev -- sh -c 'echo $DATABASE_URL'
 ```
 
 ### View decrypted secrets
 
 ```bash
-with-env-secrets view dev
+xsops view dev
 ```
 
 ### Edit secrets
@@ -139,13 +139,13 @@ with-env-secrets view dev
 Opens the decrypted file in your editor; re-encrypts on save:
 
 ```bash
-with-env-secrets edit dev
+xsops edit dev
 ```
 
 ### Show resolved paths
 
 ```bash
-with-env-secrets which dev
+xsops which dev
 # Output:
 # Project root: /path/to/your-project
 # Secrets file: /path/to/your-project/secrets/dev/env.yaml

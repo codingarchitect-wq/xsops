@@ -24,4 +24,4 @@ export GPG_FP=$("$SCRIPT_DIR/generate-test-gpg-key.sh")
 echo "    Generated key with fingerprint: $GPG_FP"
 
 echo "==> Running integration tests..."
-bats "$SCRIPT_DIR/with-env-secrets-integration.bats"
+bats "$SCRIPT_DIR/xsops-integration.bats"

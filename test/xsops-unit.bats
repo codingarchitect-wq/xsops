@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# tests/with-env-secrets-unit.bats
+# tests/xsops-unit.bats
 
 setup() {
     TEST_DIR="$(mktemp -d)"
@@ -26,7 +26,7 @@ ANOTHER_KEY: another-prod-value
 EOF
 
     # Create script with mocked sops for testing
-    cat > "$TEST_DIR/with-env-secrets" <<'SCRIPT'
+    cat > "$TEST_DIR/xsops" <<'SCRIPT'
 #!/bin/bash
 set -euo pipefail
 
@@ -106,7 +106,7 @@ case "$CMD" in
         ;;
 esac
 SCRIPT
-    chmod +x "$TEST_DIR/with-env-secrets"
+    chmod +x "$TEST_DIR/xsops"
 }
 
 teardown() {
@@ -119,21 +119,21 @@ teardown() {
 
 @test "shows usage when no command given" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets"
+    run "$TEST_DIR/xsops"
     [ "$status" -eq 1 ]
     [[ "$output" =~ "Usage:" ]]
 }
 
 @test "shows error when env not given" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run
+    run "$TEST_DIR/xsops" run
     [ "$status" -eq 1 ]
     [[ "$output" =~ "Environment required" ]]
 }
 
 @test "shows error for unknown command" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" unknown dev
+    run "$TEST_DIR/xsops" unknown dev
     [ "$status" -eq 1 ]
     [[ "$output" =~ "Usage:" ]]
 }
@@ -142,21 +142,21 @@ teardown() {
 
 @test "finds project root from project directory" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" which dev
+    run "$TEST_DIR/xsops" which dev
     [ "$status" -eq 0 ]
     [[ "$output" =~ "Project root: $TEST_DIR/project" ]]
 }
 
 @test "finds project root from nested directory" {
     cd "$TEST_DIR/project/src/nested"
-    run "$TEST_DIR/with-env-secrets" which dev
+    run "$TEST_DIR/xsops" which dev
     [ "$status" -eq 0 ]
     [[ "$output" =~ "Project root: $TEST_DIR/project" ]]
 }
 
 @test "fails when no project root found" {
     cd "/tmp"
-    run "$TEST_DIR/with-env-secrets" which dev
+    run "$TEST_DIR/xsops" which dev
     [ "$status" -eq 1 ]
     [[ "$output" =~ "Could not find project root" ]]
 }
@@ -165,42 +165,42 @@ teardown() {
 
 @test "run loads dev secrets" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run dev -- printenv TEST_KEY
+    run "$TEST_DIR/xsops" run dev -- printenv TEST_KEY
     [ "$status" -eq 0 ]
     [ "$output" = "dev-value" ]
 }
 
 @test "run loads prod secrets" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run prod -- printenv TEST_KEY
+    run "$TEST_DIR/xsops" run prod -- printenv TEST_KEY
     [ "$status" -eq 0 ]
     [ "$output" = "prod-value" ]
 }
 
 @test "run loads multiple secrets" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run dev -- printenv ANOTHER_KEY
+    run "$TEST_DIR/xsops" run dev -- printenv ANOTHER_KEY
     [ "$status" -eq 0 ]
     [ "$output" = "another-dev-value" ]
 }
 
 @test "run works from nested directory" {
     cd "$TEST_DIR/project/src/nested"
-    run "$TEST_DIR/with-env-secrets" run dev -- printenv TEST_KEY
+    run "$TEST_DIR/xsops" run dev -- printenv TEST_KEY
     [ "$status" -eq 0 ]
     [ "$output" = "dev-value" ]
 }
 
 @test "run fails for nonexistent environment" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run staging -- echo hello
+    run "$TEST_DIR/xsops" run staging -- echo hello
     [ "$status" -eq 1 ]
     [[ "$output" =~ "Secrets file not found" ]]
 }
 
 @test "run executes command without secrets" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" run dev -- echo hello world
+    run "$TEST_DIR/xsops" run dev -- echo hello world
     [ "$status" -eq 0 ]
     [ "$output" = "hello world" ]
 }
@@ -209,7 +209,7 @@ teardown() {
 
 @test "view shows decrypted secrets" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" view dev
+    run "$TEST_DIR/xsops" view dev
     [ "$status" -eq 0 ]
     [[ "$output" =~ "TEST_KEY" ]]
     [[ "$output" =~ "dev-value" ]]
@@ -219,14 +219,14 @@ teardown() {
 
 @test "which shows correct paths for dev" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" which dev
+    run "$TEST_DIR/xsops" which dev
     [ "$status" -eq 0 ]
     [[ "$output" =~ "secrets/dev/env.yaml" ]]
 }
 
 @test "which shows correct paths for prod" {
     cd "$TEST_DIR/project"
-    run "$TEST_DIR/with-env-secrets" which prod
+    run "$TEST_DIR/xsops" which prod
     [ "$status" -eq 0 ]
     [[ "$output" =~ "secrets/prod/env.yaml" ]]
 }

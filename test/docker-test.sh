@@ -9,7 +9,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 cd "$PROJECT_DIR"
 
-IMAGE_NAME="with-env-secrets-test"
+IMAGE_NAME="xsops-test"
 
 echo "==> Building test Docker image..."
 docker build -t "$IMAGE_NAME" -f test/Dockerfile .

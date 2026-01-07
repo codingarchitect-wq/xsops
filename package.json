@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "helper scripts and their bats tests",
   "scripts": {
-    "test": "npx bats --print-output-on-failure test/with-env-secrets-unit.bats",
+    "test": "npx bats --print-output-on-failure test/xsops-unit.bats",
     "test:integration": "./test/docker-test.sh",
-    "debug-test": "npx bats --print-output-on-failure --show-output-of-passing-tests test/with-env-secrets-unit.bats"
+    "debug-test": "npx bats --print-output-on-failure --show-output-of-passing-tests test/xsops-unit.bats"
   },
   "devDependencies": {
     "bats": "^1.13.0",
