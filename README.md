@@ -22,6 +22,20 @@ Secrets never leak into your shell's environment; they're only available to the 
 
 ## Installation
 
+### Quick Install (Linux/macOS)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/codingarchitect-wq/xsops/main/install.sh | sudo bash
+```
+
+Or install to a custom path (no sudo required):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/codingarchitect-wq/xsops/main/install.sh | bash -s -- ~/.local/bin
+```
+
+### Manual Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/codingarchitect-wq/xsops.git
