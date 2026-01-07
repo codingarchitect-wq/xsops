@@ -27,9 +27,41 @@ Secrets never leak into your shell's environment; they're only available to the 
 ```bash
 # Clone the repository
 git clone https://github.com/codingarchitect-wq/with-env-secrets.git
+cd with-env-secrets
+```
 
-# Create a symlink for global access
+### Linux / macOS
+
+```bash
+# Option 1: Symlink to /usr/local/bin (requires sudo)
 sudo ln -s "$(pwd)/with-env-secrets" /usr/local/bin/with-env-secrets
+
+# Option 2: Add to PATH in ~/.bashrc or ~/.zshrc (no sudo required)
+echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Windows (WSL)
+
+```bash
+# Same as Linux - run from within WSL
+sudo ln -s "$(pwd)/with-env-secrets" /usr/local/bin/with-env-secrets
+```
+
+### Windows (Git Bash)
+
+Symlinks are unreliable in Git Bash. Add the directory to your PATH instead:
+
+```bash
+# Add to ~/.bashrc
+echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc
+source ~/.bashrc
+```
+
+To verify installation, run:
+
+```bash
+with-env-secrets
 ```
 
 ## Project Structure
